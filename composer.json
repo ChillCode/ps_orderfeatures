@@ -1,0 +1,27 @@
+{
+  "name": "chillcode/ps_orderfeatures",
+  "description": "PrestaShop module ps_orderfeatures",
+  "homepage": "https://github.com/chillcode/ps_orderfeatures",
+  "license": "AFL-3.0",
+  "authors": [
+    {
+      "name": "Chillcode"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\OrderFeatures\\": "src/"
+    },
+    "classmap": [
+      "ps_orderfeatures.php"
+    ],
+    "exclude-from-classmap": []
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "type": "prestashop-module"
+}
