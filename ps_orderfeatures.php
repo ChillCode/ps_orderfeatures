@@ -10,7 +10,7 @@
  * @author    ChillCode https://github.com/chillcode
  * @copyright 2003-2023
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
- * @version   GIT: 1.0.1
+ * @version   GIT: 1.0.2
  * @link      https://github.com/chillcode
  */
 
@@ -25,7 +25,7 @@ class Ps_Orderfeatures extends Module
     {
         $this->name = 'ps_orderfeatures';
         $this->tab = 'content_management';
-        $this->version = '1.0.1';
+        $this->version = '1.0.2';
         $this->author = 'Chillcode';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.7.8.0', 'max' => _PS_VERSION_);

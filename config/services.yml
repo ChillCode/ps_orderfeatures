@@ -9,7 +9,7 @@ services:
     calls:
             - [setLogger, ['@logger']]
 
-  prestashop.module.global_features.adapter.order.repository.order_repository:
+  prestashop.module.orderfeatures.adapter.order.repository.order_repository:
     class: PrestaShop\Module\OrderFeatures\Adapter\Order\Repository\OrderRepository
     arguments: ["@doctrine.dbal.default_connection", "%database_prefix%"]
 

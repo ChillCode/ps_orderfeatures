@@ -29,7 +29,7 @@ class OrderRepository
     private $dbPrefix;
 
     /**
-     * ShortLinkRepository constructor.
+     * OrderRepository constructor.
      *
      * @param Connection $connection
      * @param string $dbPrefix
@@ -46,7 +46,6 @@ class OrderRepository
      * Delete order data.
      *
      * @param OrderId $orderId Order ID.
-     * @return array Return invoice file data.
      * @throws ConnectionException
      * @throws Exception
      */

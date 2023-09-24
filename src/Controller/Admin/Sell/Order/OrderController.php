@@ -5,7 +5,6 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-
 namespace PrestaShop\Module\OrderFeatures\Controller\Admin\Sell\Order;
 
 use Exception;
@@ -275,7 +274,7 @@ class OrderController extends FrameworkBundleAdminController implements OrderCon
     private function deleteAction($orderId)
     {
         /** @var \PrestaShop\Module\OrderFeatures\Adapter\Order\Repository\OrderRepository */
-        $repository = $this->get('prestashop.module.global_features.adapter.order.repository.order_repository');
+        $repository = $this->get('prestashop.module.orderfeatures.adapter.order.repository.order_repository');
 
         try {
             $repository->deleteOrder($orderId);
