@@ -50,7 +50,7 @@ class OrderRepository
     }
 
     /**
-     * TODO: Delete QuickPay, PayPal and other modules that reference id_order column.
+     * TODO: Delete QuickPay, PayPal and other modules that reference id_order column. Use handlers and entities.
      *
      * Before calling this function, check all references to id_order on third-party modules.
      *
@@ -58,7 +58,7 @@ class OrderRepository
      *
      * Delete order data.
      *
-     * @param OrderId $orderId Order ID.
+     * @param int $orderId Order ID.
      * @throws ConnectionException
      * @throws Exception
      */
