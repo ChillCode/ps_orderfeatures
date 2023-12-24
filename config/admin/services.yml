@@ -6,18 +6,14 @@ services:
     class: PrestaShop\Module\OrderFeatures\Controller\Admin\Sell\Order\OrderController
     decorates: PrestaShopBundle\Controller\Admin\Sell\Order\OrderController
     arguments: ["@decorated_order_controller.inner"]
-    calls:
-            - [setLogger, ['@logger']]
+    calls: [[setLogger, ['@logger']]]
 
   prestashop.module.orderfeatures.adapter.order.repository.order_repository:
     class: PrestaShop\Module\OrderFeatures\Adapter\Order\Repository\OrderRepository
     arguments: ["@doctrine.dbal.default_connection", "%database_prefix%"]
 
-  prestashop.module.core.grid.definition.factory.order:
+  prestashop.module.orderfeatures.core.grid.definition.factory.order:
     class: PrestaShop\Module\OrderFeatures\Core\Grid\Definition\Factory\OrderGridDefinitionFactory
     decorates: prestashop.core.grid.definition.factory.order
-    arguments:
-            - '@prestashop.module.core.grid.definition.factory.order.inner'
-            - '@prestashop.core.hook.dispatcher'
-    calls:
-            - [setTranslator, ['@translator']]
+    arguments: ["@prestashop.module.orderfeatures.core.grid.definition.factory.order.inner", "@prestashop.core.hook.dispatcher"]
+    calls: [[setTranslator, ['@translator']]]

@@ -12,8 +12,8 @@ use PrestaShop\PrestaShop\Core\Grid\Action\Bulk\Type\ButtonBulkAction;
 use PrestaShop\PrestaShop\Core\Grid\Action\Bulk\Type\ModalFormSubmitBulkAction;
 use PrestaShop\PrestaShop\Core\Grid\Action\Bulk\Type\SubmitBulkAction;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractFilterableGridDefinitionFactory;
-use PrestaShop\PrestaShop\Core\Hook\HookDispatcherInterface;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\OrderGridDefinitionFactory as OrderGridDefinitionFactoryCore;
+use PrestaShop\PrestaShop\Core\Hook\HookDispatcherInterface;
 
 /**
  * Creates definition for Orders grid
@@ -104,13 +104,13 @@ final class OrderGridDefinitionFactory extends AbstractFilterableGridDefinitionF
             ]))->add((new SubmitBulkAction('delete_orders'))
             ->setName($this->trans('Delete', [], 'Admin.Orderscustomers.Feature'))
             ->setOptions([
-                'confirm_message' =>  $this->trans(
+                'confirm_message' => $this->trans(
                     'Do you want to delete selected orders?',
                     [],
                     'Admin.Orderscustomers.Feature'
                 ),
                 'submit_method' => 'POST',
-                'submit_route' => 'admin_orders_bulk_delete'
+                'submit_route' => 'admin_orders_bulk_delete',
             ]));
     }
 }

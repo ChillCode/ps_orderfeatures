@@ -11,6 +11,7 @@ namespace PrestaShop\Module\OrderFeatures\Adapter\Order\Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
+use Doctrine\DBAL\Exception as DBALException;
 use Exception;
 
 /**
@@ -42,11 +43,18 @@ class OrderRepository
         $this->dbPrefix = $dbPrefix;
     }
 
-    private function listOrderTables()
+    /**
+     * List id_order references.
+     *
+     * @return array<int, array<string, mixed>>
+     *
+     * @throws DBALException
+     */
+    public function listOrderTables()
     {
         $orderTablesReference = "SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'id_order'";
 
-        return $this->connection->fetchAll($orderTablesReference);
+        return $this->connection->fetchAllAssociative($orderTablesReference);
     }
 
     /**
@@ -58,7 +66,8 @@ class OrderRepository
      *
      * Delete order data.
      *
-     * @param int $orderId Order ID.
+     * @param int $orderId order ID
+     *
      * @throws ConnectionException
      * @throws Exception
      */
@@ -69,20 +78,20 @@ class OrderRepository
         try {
             $this->connection->executeQuery('DELETE `or`,`ord` FROM `' . $this->dbPrefix . 'order_return` AS `or` LEFT JOIN `' . $this->dbPrefix . 'order_return_detail` AS `ord` ON `or`.id_order_return = `ord`.id_order_return WHERE id_order = ' . $orderId);
             $this->connection->executeQuery('DELETE `os`,`osd` FROM `' . $this->dbPrefix . 'order_slip`   AS `os` LEFT JOIN `' . $this->dbPrefix . 'order_slip_detail`   AS `osd` ON `os`.id_order_slip = `osd`.id_order_slip WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_history`     WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_detail_tax`  WHERE id_order_detail IN (SELECT id_order_detail FROM ' . $this->dbPrefix . 'order_detail WHERE id_order = ' . $orderId . ')');
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_detail`      WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_payment`     WHERE order_reference IN (SELECT reference FROM ' . $this->dbPrefix . 'orders WHERE id_order = ' . $orderId . ')');
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_detail_tax` WHERE id_order_detail IN (SELECT id_order_detail FROM `' . $this->dbPrefix . 'order_detail` WHERE id_order = ' . $orderId . ')');
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_detail` WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_payment` WHERE order_reference IN (SELECT reference FROM `' . $this->dbPrefix . 'orders` WHERE id_order = ' . $orderId . ')');
             $this->connection->executeQuery('DELETE `cp`,`c`,`o` FROM `' . $this->dbPrefix . 'cart_product` AS `cp` LEFT JOIN `' . $this->dbPrefix . 'cart` AS `c` ON `c`.id_cart = `cp`.id_cart LEFT JOIN `' . $this->dbPrefix . 'orders` AS `o` ON `cp`.id_cart = `o`.id_cart WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_carrier`         WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_cart_rule`       WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_invoice_tax`     WHERE id_order_invoice IN (SELECT id_order_invoice FROM ' . $this->dbPrefix . 'order_invoice WHERE id_order = ' . $orderId . ')');
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_invoice`         WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_carrier` WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_cart_rule` WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_history` WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_invoice_tax` WHERE id_order_invoice IN (SELECT id_order_invoice FROM `' . $this->dbPrefix . 'order_invoice` WHERE id_order = ' . $orderId . ')');
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_invoice` WHERE id_order = ' . $orderId);
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_invoice_payment` WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'customer_thread`       WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'message`               WHERE id_order = ' . $orderId);
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'log`                   WHERE object_id = ' . $orderId . " AND object_type = 'Order'");
-            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'stock_mvt`             WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'customer_thread` WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'log` WHERE object_id = ' . $orderId . " AND object_type = 'Order'");
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'message` WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'stock_mvt` WHERE id_order = ' . $orderId);
 
             $this->connection->commit();
         } catch (Exception $e) {

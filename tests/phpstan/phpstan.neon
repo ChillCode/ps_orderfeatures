@@ -1,0 +1,14 @@
+includes:
+	- %currentWorkingDirectory%/vendor/prestashop/php-dev-tools/phpstan/ps-module-extension.neon
+
+parameters:
+  paths:
+    # From PHPStan 0.12, paths to check are relative to the neon file
+    - ../../orderfeatures.php
+    - ../../config/
+    - ../../src/
+    - ../../translations/
+    - ../../upgrade/
+  level: 5
+  parallel:
+    maximumNumberOfProcesses: 1

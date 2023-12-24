@@ -1,4 +1,4 @@
-# Order Features
+# Order Features for PrestaShop
 
 Allow PrestaShop to bulk delete orders.
 

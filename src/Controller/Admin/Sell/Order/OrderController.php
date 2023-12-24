@@ -8,26 +8,28 @@
 namespace PrestaShop\Module\OrderFeatures\Controller\Admin\Sell\Order;
 
 use Exception;
-use PrestaShop\Module\OrderFeatures\Core\Order\OrderControllerInterface;
 use PrestaShop\PrestaShop\Core\Search\Filters\OrderFilters;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Controller\Admin\Sell\Order\OrderController as OrderControllerCore;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
+use PrestaShopBundle\Security\Annotation\DemoRestricted;
 use PrestaShopBundle\Security\Annotation\ModuleActivated;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use PrestaShopBundle\Security\Annotation\DemoRestricted;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class OrderController.
  *
- * @ModuleActivated(moduleName="ps_orderfeatures", redirectRoute="admin_module_manage")
+ * @ModuleActivated(moduleName="orderfeatures", redirectRoute="admin_module_manage")
  */
-class OrderController extends FrameworkBundleAdminController implements OrderControllerInterface
+class OrderController extends FrameworkBundleAdminController
 {
+    /**
+     * @var OrderControllerCore
+     */
     private $orderControllerCore;
 
     public function __construct(?OrderControllerCore $orderControllerCore)
