@@ -81,7 +81,8 @@ class OrderRepository
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_detail_tax` WHERE id_order_detail IN (SELECT id_order_detail FROM `' . $this->dbPrefix . 'order_detail` WHERE id_order = ' . $orderId . ')');
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_detail` WHERE id_order = ' . $orderId);
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_payment` WHERE order_reference IN (SELECT reference FROM `' . $this->dbPrefix . 'orders` WHERE id_order = ' . $orderId . ')');
-            $this->connection->executeQuery('DELETE `cp`,`c`,`o` FROM `' . $this->dbPrefix . 'cart_product` AS `cp` LEFT JOIN `' . $this->dbPrefix . 'cart` AS `c` ON `c`.id_cart = `cp`.id_cart LEFT JOIN `' . $this->dbPrefix . 'orders` AS `o` ON `cp`.id_cart = `o`.id_cart WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE `cp`,`c` FROM `' . $this->dbPrefix . 'cart_product` AS `cp` LEFT JOIN `' . $this->dbPrefix . 'cart` AS `c` ON `c`.id_cart = `cp`.id_cart LEFT JOIN `' . $this->dbPrefix . 'orders` AS `o` ON `cp`.id_cart = `o`.id_cart WHERE id_order = ' . $orderId);
+            $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'orders` WHERE id_order = ' . $orderId);
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_carrier` WHERE id_order = ' . $orderId);
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_cart_rule` WHERE id_order = ' . $orderId);
             $this->connection->executeQuery('DELETE FROM `' . $this->dbPrefix . 'order_history` WHERE id_order = ' . $orderId);
